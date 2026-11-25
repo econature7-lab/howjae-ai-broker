@@ -1776,7 +1776,7 @@ function go(tab, opts = {}) {
   S.mode = mode; S.tab = tab;
   document.body.dataset.mode = mode;
   $('#overlay').classList.remove('show');
-  $('#doverlay').classList.remove('show');
+  closeDetail();
   $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + tab));
   const hash = mode === 'customer' ? '#' + tab : '#staff/' + tab;
   if (location.hash !== hash) history.replaceState(null, '', hash);
@@ -2492,6 +2492,8 @@ function openBuilding(id, focusMemo = true) {
 function closeDetail() {
   $('#doverlay').classList.remove('show');
   $('#doverlay').setAttribute('aria-hidden', 'true');
+  const body = $('#d-body');
+  if (body) body.innerHTML = '';
 }
 function addMemo(id) {
   const inp = $('#d-memo'), text = inp ? inp.value.trim() : '';
