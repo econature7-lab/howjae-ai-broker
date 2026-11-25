@@ -628,7 +628,7 @@ body[data-mode="staff"] .tab.active{color:var(--navy)}
 .ledger thead th{background:#F7FAFE;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.04em}
 .ledger tbody tr:last-child td{border-bottom:0}
 .ledger td:first-child{font-weight:800;color:var(--sub);width:64px;white-space:nowrap}
-.ledgerwrap{max-height:322px;overflow:auto;border-radius:11px;border:1px solid #EAF1FB;overscroll-behavior:contain}
+.ledgerwrap{max-height:322px;overflow:auto;border-radius:11px;border:1px solid #EAF1FB;overscroll-behavior:contain;scrollbar-width:thin;box-shadow:inset 0 -16px 14px -14px rgba(15,32,64,.18)}
 .ledgerwrap .ledger{border:0;border-radius:0}
 .ledgerwrap thead th{position:sticky;top:0;z-index:1}
 .roomtable{font-size:11.5px;border:1px solid #EAF1FB;border-radius:11px;overflow:hidden}
@@ -2406,15 +2406,9 @@ function ledgerRows(b) {
   const rooms = buildingRooms(b);
   const countOn = f => rooms.filter(r => Math.floor(Number(r.no) / 100) === f).length;
   const rows = [];
-  if (b.floors > 6) {
-    const upper = rooms.filter(r => Math.floor(Number(r.no) / 100) >= 2).length;
-    rows.push({ f: b.floors + '~2층', u: b.floorUse, n: upper });
-    rows.push({ f: '1층', u: b.groundUse, n: countOn(1) });
-  } else {
-    for (let f = b.floors; f >= 1; f--) {
-      const isGround = f === 1;
-      rows.push({ f: isGround ? '1층' : f + '층', u: isGround ? b.groundUse : b.floorUse, n: countOn(f) });
-    }
+  for (let f = b.floors; f >= 1; f--) {
+    const isGround = f === 1;
+    rows.push({ f: isGround ? '1층' : f + '층', u: isGround ? b.groundUse : b.floorUse, n: countOn(f) });
   }
   rows.push({ f: '지하 1층', u: b.underUse, n: 0 });
   return rows;
@@ -2447,7 +2441,7 @@ function openBuilding(id, focusMemo = true) {
       <div class="dstat"><div class="k">입주중</div><div class="v">${inUse}<small>호실</small></div></div>
     </div>
     <div class="dquick"><button class="btn btn-primary btn-sm btn-block" data-act="to-report" data-id="${b.id}">${ic('i-sparkle')}이 매물로 고객용 AI 리포트 바로 보기</button></div>
-    <div class="sect-h">${ic('i-building')}건축물대장 층별 용도 <span style="font-weight:700;letter-spacing:0;color:var(--faint)">샘플 열람</span></div>
+    <div class="sect-h">${ic('i-building')}건축물대장 층별 용도 <span style="font-weight:700;letter-spacing:0;color:var(--faint)">${b.floors > 6 ? (b.floors + 1) + '개 층 · 스크롤' : '샘플 열람'}</span></div>
     <div class="ledgerwrap">
       <table class="ledger">
         <thead><tr><th>층</th><th>용도</th><th style="text-align:right">호실</th></tr></thead>
