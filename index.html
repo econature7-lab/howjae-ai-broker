@@ -1718,7 +1718,7 @@ footer.site .flinks button{text-align:left}
       </div>
       <p class="tour-note" id="c-locknote" hidden><svg><use href="#i-lock"/></svg><span>상세 번지·호실·등기부 원본은 투어 확정 후 안내됩니다. <b>심층 풀 리포트 10만 원 · 계약 성사 시 중개보수에서 100% 차감(법정 상한 이내).</b> 입력한 내용은 이 브라우저 밖으로 전송되지 않습니다(프로토타입).</span></p>
       <div class="err" id="c-err">성함과 연락처를 입력해 주세요.</div>
-      <button class="btn btn-primary btn-block" type="submit" style="margin-top:13px">신청하기</button>
+      <button class="btn btn-primary btn-block" type="submit" style="margin-top:13px" id="c-submit">신청하기</button>
     </form>
   </div>
 </div>
@@ -2510,6 +2510,7 @@ function openSheet(kind) {
       : '연락처를 남겨 주시면 순서대로 연락드립니다. (프로토타입: 실제 발송 없음)';
   $('#c-when-field').hidden = !tour;
   $('#c-locknote').hidden = !tour;
+  $('#c-submit').textContent = tour ? '투어 예약 신청하기' : '신청하기';
   $('#c-memo').placeholder = tour
     ? '예: 평일 오후 희망, 주차 필요'
     : '예: 서교동 사무실 20~30평, 12월 입주 희망';
